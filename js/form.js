@@ -60,9 +60,9 @@ const selectRoomsHandler = () => {
 const titleInputValidator = () => {
   let valueLength = titleInput.value.length;
   if (valueLength < MIN_TITLE_LENGTH ) {
-    titleInput.setCustomValidity(`Минимальная длина ${MIN_TITLE_LENGTH}, еще ${MIN_TITLE_LENGTH-valueLength}`);
+    titleInput.setCustomValidity(`Минимальная длина заголовка ${MIN_TITLE_LENGTH} заголовка, еще ${MIN_TITLE_LENGTH-valueLength}`);
   } else if (valueLength > MAX_TITLE_LENGTH) {
-    titleInput.setCustomValidity(`Максимальная длина ${MAX_TITLE_LENGTH}, удалите лишние ${valueLength-MAX_TITLE_LENGTH}`);
+    titleInput.setCustomValidity(`Максимальная длина заголовка ${MAX_TITLE_LENGTH}, удалите лишнии ${valueLength-MAX_TITLE_LENGTH} символов`);
   } else {
     titleInput.setCustomValidity('');
   }
@@ -76,3 +76,4 @@ timeInput.addEventListener('change', function (evt) {
 
 titleInput.addEventListener('input', titleInputValidator)
 adFormSubmitButton.addEventListener('click', selectRoomsHandler);
+
