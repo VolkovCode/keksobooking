@@ -59,6 +59,7 @@
 
 import {getData, API_URL} from './api.js';
 import {renderCard} from './card.js';
+import {writeLocation} from './form.js';
 
 const adForm = document.querySelector('.ad-form')
 adForm.classList.remove('ad-form--disabled')
@@ -92,6 +93,12 @@ const mainPinIcon = L.icon({
   iconAnchor: [26, 52],
 });
 
+const pinIcon = L.icon({
+  iconUrl: '../img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
 const marker = L.marker(
   {
     lat: 59.96831,
@@ -108,7 +115,6 @@ marker
   .bindPopup('title')
 
 const addMapMarkers = (data) => {
-  console.log(data);
   data.forEach((d) => {
     const marker = L.marker(
       {
@@ -117,7 +123,7 @@ const addMapMarkers = (data) => {
       },
       {
         draggable: false,
-        icon: mainPinIcon,
+        icon: pinIcon,
       },
     );
     marker
@@ -128,5 +134,5 @@ const addMapMarkers = (data) => {
 getData(addMapMarkers, API_URL)
 
 marker.on('moveend', (evt) => {
-  console.log(evt.target.getLatLng());
+  writeLocation(evt.target.getLatLng());
 });

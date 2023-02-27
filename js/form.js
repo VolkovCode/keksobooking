@@ -1,15 +1,17 @@
 const MIN_TITLE_LENGTH = 30
 const MAX_TITLE_LENGTH = 100
 
-const type = document.querySelector('#type')
-const price = document.querySelector('#price')
-const timeIn = document.querySelector('#timein')
-const timeOut = document.querySelector('#timeout')
-const timeInput = document.querySelector('.ad-form__element--time')
-const titleInput = document.querySelector('#title')
-const adFormSubmitButton = document.querySelector('.ad-form__submit');
-const roomsQuantityElement = document.querySelector('#room_number');
-const guestsQuantityElement = document.querySelector('#capacity');
+const form = document.querySelector('.ad-form')
+const type = form.querySelector('#type')
+const price = form.querySelector('#price')
+const timeIn = form.querySelector('#timein')
+const timeOut = form.querySelector('#timeout')
+const timeInput = form.querySelector('.ad-form__element--time')
+const titleInput = form.querySelector('#title')
+const adFormSubmitButton = form.querySelector('.ad-form__submit');
+const roomsQuantityElement = form.querySelector('#room_number');
+const guestsQuantityElement = form.querySelector('#capacity');
+const addressInput = form.querySelector('#address');
 
 const roomsToGuests = {
   1: ['1'],
@@ -26,23 +28,32 @@ const mismatchMessage = {
   100: '100 комнат — не для гостей',
 };
 
+const minPrices = {
+  'bungalow': 0,
+  'flat': 1000,
+  'house': 3000,
+  'palace': 10000,
+}
+
+
+
 type.addEventListener('change', function () {
   switch (type.value) {
     case 'bungalow':
-      price.placeholder = '0';
-      price.min = '0'
+      price.placeholder = minPrices['bungalow'];
+      price.min = minPrices['bungalow'];
       break;
     case 'flat':
-      price.placeholder = '1000';
-      price.min = '1000'
+      price.placeholder = minPrices['flat'];
+      price.min = minPrices['flat'];
       break;
     case 'house':
-      price.placeholder = '3000';
-      price.min = '3000'
+      price.placeholder = minPrices['house'];
+      price.min = minPrices['house'];
       break;
     case 'palace':
-      price.placeholder = '10000';
-      price.min = '10000'
+      price.placeholder = minPrices['palace'];
+      price.min = minPrices['palace'];
       break;
   }
 })
@@ -54,7 +65,7 @@ const matchRoomsAndGuests = () => {
 
 const selectRoomsHandler = () => {
   guestsQuantityElement.setCustomValidity(matchRoomsAndGuests());
-  // guestsQuantityElement.reportValidity();
+  guestsQuantityElement.reportValidity();
 };
 
 const titleInputValidator = () => {
@@ -69,11 +80,25 @@ const titleInputValidator = () => {
   titleInput.reportValidity();
 }
 
+// const priceInputValidator = () => {
+//   const priceValue = titleInput.value;
+//   // const selectedTypeValue = type.value;
+//   if (priceValue < minPrices[type.value]) {
+//     price.setCustomValidity(`Минимальная цена для данного типа жилья(${selectedTypeValue}) - ${minPrices[selectedTypeValue]}`);
+//   }
+//   price.reportValidity();
+// }
+
+export const writeLocation = ({lat, lng}) => {
+  addressInput.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`
+}
+
 timeInput.addEventListener('change', function (evt) {
   timeIn.value = evt.target.value
   timeOut.value = evt.target.value
 })
 
 titleInput.addEventListener('input', titleInputValidator)
+addressInput.readOnly = true
 adFormSubmitButton.addEventListener('click', selectRoomsHandler);
 
